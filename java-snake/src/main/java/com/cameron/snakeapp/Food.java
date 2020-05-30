@@ -25,7 +25,8 @@ public class Food extends Sprite {
     private final double screenHeight;
 
     /**
-     * Food instance where the food intance 
+     * Food instance where the food instance is half the size of the 
+     * snake blocks
      * @param screenWidth Screen width used in game
      * @param screenHeight Screen height used in game
      * @param blockSize Size of the snake blocks
