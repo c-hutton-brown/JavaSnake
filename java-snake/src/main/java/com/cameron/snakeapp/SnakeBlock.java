@@ -5,13 +5,16 @@ import javafx.scene.paint.Color;
 
 public class SnakeBlock extends Sprite {
 
-    public SnakeBlock(double x, double y) {
-        super(x, y, 30, 30);
+    public SnakeBlock(double x, double y, double blockSize) {
+        super(x, y, blockSize, blockSize);
+    }
+    
+    public SnakeBlock(double blockSize) {
+        super(-blockSize, -blockSize, blockSize, blockSize);
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
+    public void draw(GraphicsContext gc, Color colour) {
+        gc.setFill(colour);
         gc.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

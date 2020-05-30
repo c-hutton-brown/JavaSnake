@@ -5,20 +5,33 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class Snake {
-    private int length = 3;
     private int direction = 2;
-    private double speed = 30;
+    private int startLength = 3;
 
     private Color colour;
-    private double opacity = 1.0;
+    private double blockSize;
 
     private ArrayList<SnakeBlock> snakeBlocks = new ArrayList<SnakeBlock>();
 
-    public Snake() {
-        addSnakeBlock(90, 90);
-        addSnakeBlock(60, 90);
-        addSnakeBlock(30, 90);
+    public Snake(double blockSize) {
+        this.blockSize = blockSize;
+        this.colour = Color.GREEN;
+
+        initSnake();
     } 
+
+    public Snake(double blockSize, Color colour) {
+        this.blockSize = blockSize;
+        this.colour = colour;
+
+        initSnake();
+    } 
+
+    private void initSnake() {
+        for (int i = startLength - 1; i > -1; i--) {
+            addSnakeBlock(blockSize * (i + 1), blockSize * startLength);
+        }
+    }
 
     public void update() {
         for (int i = snakeBlocks.size() - 1; i >= 1; i--) {
@@ -28,30 +41,25 @@ public class Snake {
 
         switch (this.direction) {
             case 0:
-                snakeBlocks.get(0).setX(snakeBlocks.get(0).getX() - speed);
+                snakeBlocks.get(0).setX(snakeBlocks.get(0).getX() - blockSize);
                 break;
             case 1:
-                snakeBlocks.get(0).setY(snakeBlocks.get(0).getY() - speed); 
+                snakeBlocks.get(0).setY(snakeBlocks.get(0).getY() - blockSize); 
                 break;
             case 2:
-                snakeBlocks.get(0).setX(snakeBlocks.get(0).getX() + speed);
+                snakeBlocks.get(0).setX(snakeBlocks.get(0).getX() + blockSize);
                 break;
             case 3:
-                snakeBlocks.get(0).setY(snakeBlocks.get(0).getY() + speed);
+                snakeBlocks.get(0).setY(snakeBlocks.get(0).getY() + blockSize);
                 break;
         }
     }   
 
     public void draw(GraphicsContext gc) {
         for (int i = 0; i < snakeBlocks.size(); i++) {
-            snakeBlocks.get(i).draw(gc);
+            snakeBlocks.get(i).draw(gc, this.colour);
         }
     }
-
-    public ArrayList<SnakeBlock> getSnakePoints() {
-        return snakeBlocks;
-    }
-
     public void moveLeft() {
         this.direction = 0;
     }
@@ -69,7 +77,11 @@ public class Snake {
     }
 
     public void addSnakeBlock(double x, double y) {
-        snakeBlocks.add(new SnakeBlock(x, y));
+        snakeBlocks.add(new SnakeBlock(x, y, blockSize));
+    }
+
+    public void addSnakeBlock() {
+        snakeBlocks.add(new SnakeBlock(blockSize));
     }
 
     public boolean collisionCheckFood(Food food) {
@@ -82,6 +94,7 @@ public class Snake {
     public boolean collisionCheckSelf() {
         for (int i = 1; i < snakeBlocks.size(); i++) {
             if (snakeBlocks.get(0).intersects(snakeBlocks.get(i))) {
+                System.out.println("self collision");
                 return true;
             }
         }
@@ -94,5 +107,27 @@ public class Snake {
                 return true;
         }
         return false;
+    }
+
+    public double[] getSnakeXPoints() {
+        int size = snakeBlocks.size();
+        double[] xPoints = new double[size];
+       
+        for (int i = 0; i < size; i++) {
+            xPoints[i] = snakeBlocks.get(i).getX();
+        }
+
+        return xPoints;
+    }
+    
+    public double[] getSnakeYPoints() {
+        int size = snakeBlocks.size();
+        double[] yPoints = new double[size];
+       
+        for (int i = 0; i < size; i++) {
+            yPoints[i] = snakeBlocks.get(i).getY();
+        }
+
+        return yPoints;
     }
 }

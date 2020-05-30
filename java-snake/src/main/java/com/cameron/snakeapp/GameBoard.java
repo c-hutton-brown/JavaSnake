@@ -1,31 +1,29 @@
 package com.cameron.snakeapp;
 
-import java.util.ArrayList;
-
 import javafx.scene.canvas.GraphicsContext;
 
 public class GameBoard {
 
-    private double width = 900;
-    private double height = 900;
+    private double width;
+    private double height;
 
     private Snake snake;
     private Food food;
 
     private boolean gameOver;
 
-    public GameBoard(int cellSize, Snake snake) {
-
-        this.gameOver = false;
+    public GameBoard(double width, double height, Snake snake) {
+        this.width = width;
+        this.height = height;
         this.snake = snake;
 
+        this.gameOver = false;
         initBoard();
     }
 
-
     private void initBoard() {
         food = new Food();
-        food.move(getSnakeXPoints(), getSnakeYPoints());
+        food.move(snake.getSnakeXPoints(), snake.getSnakeYPoints());
     }
 
     public void update() {
@@ -38,8 +36,8 @@ public class GameBoard {
 
     private void checkFoodGrabbed() {
         if (snake.collisionCheckFood(food)) {
-            snake.addSnakeBlock(0, 0);
-            food.move(getSnakeXPoints(), getSnakeYPoints());
+            snake.addSnakeBlock();
+            food.move(snake.getSnakeXPoints(), snake.getSnakeYPoints());
         }
     }
 
@@ -57,33 +55,6 @@ public class GameBoard {
 
     private void endGame() {
         gameOver = true;
-    }
-
-    private double[] getSnakeXPoints() {
-        ArrayList<SnakeBlock> snakeBlocks = snake.getSnakePoints();
-
-        int size = snakeBlocks.size();
-        double[] xPoints = new double[size];
-       
-        for (int i = 0; i < size; i++) {
-            xPoints[i] = snakeBlocks.get(i).getX();
-        }
-
-        return xPoints;
-    }
-
-    
-    private double[] getSnakeYPoints() {
-        ArrayList<SnakeBlock> snakeBlocks = snake.getSnakePoints();
-
-        int size = snakeBlocks.size();
-        double[] yPoints = new double[size];
-       
-        for (int i = 0; i < size; i++) {
-            yPoints[i] = snakeBlocks.get(i).getY();
-        }
-
-        return yPoints;
     }
 
     public void draw(GraphicsContext gc) {
