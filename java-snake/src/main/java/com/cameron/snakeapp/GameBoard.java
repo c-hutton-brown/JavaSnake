@@ -7,6 +7,8 @@ public class GameBoard {
     private double width;
     private double height;
 
+    private double blockSize;
+
     private Snake snake;
     private Food food;
 
@@ -15,14 +17,16 @@ public class GameBoard {
     public GameBoard(double width, double height, Snake snake) {
         this.width = width;
         this.height = height;
+
         this.snake = snake;
+        this.blockSize = snake.getBlockSize();
 
         this.gameOver = false;
         initBoard();
     }
 
     private void initBoard() {
-        food = new Food();
+        food = new Food(width, height, blockSize);
         food.move(snake.getSnakeXPoints(), snake.getSnakeYPoints());
     }
 

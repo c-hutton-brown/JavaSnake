@@ -31,7 +31,10 @@ public class JavaSnake extends Application {
         root.getChildren().add(canvas);
     
         final GraphicsContext gc = canvas.getGraphicsContext2D();
-        Snake snake = new Snake(BLOCKSIZE, SNAKECOLOUR);
+        final Snake snake = new Snake(BLOCKSIZE, SNAKECOLOUR);
+
+        final GameBoard gameBoard = new GameBoard(WIDTH, HEIGHT, snake);
+        final GameLoop gameLoop = new GameLoop(gameBoard, gc);
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if(key.getCode()==KeyCode.A) {
@@ -46,10 +49,10 @@ public class JavaSnake extends Application {
             if(key.getCode()==KeyCode.S) {
                 snake.moveDown();
             }
+            if(key.getCode()==KeyCode.ESCAPE) {
+                gameLoop.togglePause();
+            }
         });
-
-        GameBoard gameBoard = new GameBoard(WIDTH, HEIGHT, snake);
-        GameLoop gameLoop = new GameLoop(gameBoard, gc);
 
         new Thread(gameLoop).start();
 

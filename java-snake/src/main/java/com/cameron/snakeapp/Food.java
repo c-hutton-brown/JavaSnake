@@ -7,16 +7,29 @@ import java.util.Random;
 
 public class Food extends Sprite {
 
-    public Food() {
-        super(0, 0, 15, 15);
+    private double blockSize;
+
+    private double screenWidth;
+    private double screenHeight;
+
+    public Food(double screenWidth, double screenHeight, double blockSize) {
+        super(0, 0, blockSize/2, blockSize/2);
+
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.blockSize = blockSize;
     }
 
     public void move(double[] xPoints, double[] yPoints) {
         Random rand = new Random();
-        int ub = 900/30;
 
-        int xPoint = rand.nextInt(ub) * 30;;
-        int yPoint = rand.nextInt(ub) * 30; ; 
+        int xUpper = (int)(this.screenWidth/this.blockSize);
+        int yUpper = (int)(this.screenHeight/this.blockSize);
+        
+        System.out.println(xUpper);
+
+        double xPoint = rand.nextInt(xUpper) * this.blockSize;
+        double yPoint = rand.nextInt(yUpper) * this.blockSize; 
         
         boolean invalidLocation = true;
 
@@ -33,13 +46,13 @@ public class Food extends Sprite {
             }
 
             if (invalidLocation) {
-                xPoint = rand.nextInt(ub) * 30;
-                yPoint = rand.nextInt(ub) * 30; 
+                xPoint = rand.nextInt(xUpper) * this.blockSize;
+                yPoint = rand.nextInt(yUpper) * this.blockSize; 
             }
         }
         
-        this.setX(xPoint + 7.5);
-        this.setY(yPoint + 7.5);
+        this.setX(xPoint + (this.blockSize/4));
+        this.setY(yPoint + (this.blockSize/4));
     }
 
     @Override

@@ -11,6 +11,8 @@ public class GameLoop implements Runnable {
     private final int FPS = 10;
     private final int optim_time = 1000 / FPS;
 
+    private boolean paused = false;
+
     public GameLoop(GameBoard gameBoard, GraphicsContext gc) {
         this.running = true;
         this.gameBoard = gameBoard;
@@ -23,10 +25,11 @@ public class GameLoop implements Runnable {
         int waitTime;
 
         while (running) {
-            
             startTime = System.currentTimeMillis();
 
-            update();
+            if (!paused) {
+                update();
+            }
             draw();
 
             delta = System.currentTimeMillis() - startTime;
@@ -34,9 +37,13 @@ public class GameLoop implements Runnable {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-
-            }
+            }   
         }
+
+    }
+
+    public void togglePause() {
+        paused ^= true;
     }
 
     private void draw() {
@@ -44,7 +51,6 @@ public class GameLoop implements Runnable {
         gc.setFill( new Color(0, 0, 0, 1.0) );
         gc.fillRect(0,0, 900, 900);
 
-        // Sprite
         gameBoard.draw(gc);
     }
 

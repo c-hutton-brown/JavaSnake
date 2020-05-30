@@ -130,4 +130,8 @@ public class Snake {
 
         return yPoints;
     }
+
+    public double getBlockSize() {
+        return blockSize;
+    }
 }
