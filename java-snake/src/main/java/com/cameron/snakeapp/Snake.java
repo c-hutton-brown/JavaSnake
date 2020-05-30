@@ -90,9 +90,18 @@ public class Snake {
      * @param gc GraphicsContext to draw game content
      */
     public void draw(final GraphicsContext gc) {
+        int bodyLength = snakeBlocks.size();
         // Draw each snake body part
-        for (int i = 0; i < snakeBlocks.size(); i++) {
-            snakeBlocks.get(i).draw(gc, this.colour);
+        for (int i = 0; i < bodyLength; i++) {
+            
+            // Calculate multiplier for index to find alpha value
+            double alphaMulitiplier = 1.0/snakeBlocks.size();
+            
+            // Find alpha value to assign this block
+            double alpha = (bodyLength - i) * alphaMulitiplier;
+
+            // Draw block
+            snakeBlocks.get(i).draw(gc, alpha, this.colour);
         }
     }
 

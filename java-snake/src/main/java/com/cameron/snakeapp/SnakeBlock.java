@@ -41,4 +41,16 @@ public class SnakeBlock extends Sprite {
         gc.setFill(colour);
         gc.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
+
+    /**
+     * Method to draw snake block instance with alpha
+     * @param gc GraphicsContext instance used to draw game content
+     * @param alpha Alpha value for colour
+     * @param colour Colour of the snake
+     */
+    public void draw(GraphicsContext gc, double alpha, Color colour) {
+        // Set fill then draw rectange
+        gc.setFill(new Color(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha));
+        gc.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
 }
