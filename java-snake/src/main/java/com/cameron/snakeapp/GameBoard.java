@@ -6,14 +6,17 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class GameBoard {
 
+    private double width = 900;
+    private double height = 900;
+
     private Snake snake;
     private Food food;
 
-    private int cellSize;
+    private boolean gameOver;
 
     public GameBoard(int cellSize, Snake snake) {
 
-        this.cellSize = cellSize;
+        this.gameOver = false;
         this.snake = snake;
 
         initBoard();
@@ -28,13 +31,34 @@ public class GameBoard {
     public void update() {
         snake.update();
         
+        checkFoodGrabbed();     
+        checkSelfHit();
+        checkBorderHit();
+    }
+
+    private void checkFoodGrabbed() {
         if (snake.collisionCheckFood(food)) {
             snake.addSnakeBlock(0, 0);
             food.move(getSnakeXPoints(), getSnakeYPoints());
         }
     }
 
-    
+    private void checkSelfHit() {
+        if (snake.collisionCheckSelf()) {
+            endGame();
+        }
+    }
+
+    private void checkBorderHit() {
+        if (snake.collisionCheckBorder(width, height)) {
+            endGame();
+        }
+    }
+
+    private void endGame() {
+        gameOver = true;
+    }
+
     private double[] getSnakeXPoints() {
         ArrayList<SnakeBlock> snakeBlocks = snake.getSnakePoints();
 
@@ -65,6 +89,10 @@ public class GameBoard {
     public void draw(GraphicsContext gc) {
         snake.draw(gc);
         food.draw(gc);
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
     }
     
 }

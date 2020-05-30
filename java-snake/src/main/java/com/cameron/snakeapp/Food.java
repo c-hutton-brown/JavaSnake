@@ -11,21 +11,17 @@ public class Food extends Sprite {
         super(0, 0, 15, 15);
     }
 
-    public void update() {
-
-    }
-
     public void move(double[] xPoints, double[] yPoints) {
         Random rand = new Random();
         int ub = 900/30;
 
-        int xPoint;
-        int yPoint;
+        int xPoint = rand.nextInt(ub) * 30;;
+        int yPoint = rand.nextInt(ub) * 30; ; 
+        
+        boolean invalidLocation = true;
 
-        while (true) {
-            boolean invalidLocation = false;
-            xPoint = rand.nextInt(ub) * 30;
-            yPoint = rand.nextInt(ub) * 30; 
+        while (invalidLocation) {
+            invalidLocation = false;
 
             for (int i = 0; i < xPoints.length; i++) {
                 if (xPoints[i] == xPoint) {
@@ -35,8 +31,11 @@ public class Food extends Sprite {
                     }
                 } 
             }
-            if (!invalidLocation)
-                break;
+
+            if (invalidLocation) {
+                xPoint = rand.nextInt(ub) * 30;
+                yPoint = rand.nextInt(ub) * 30; 
+            }
         }
         
         this.setX(xPoint + 7.5);

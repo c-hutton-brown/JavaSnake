@@ -74,10 +74,25 @@ public class Snake {
 
     public boolean collisionCheckFood(Food food) {
         if (snakeBlocks.get(0).intersects(food)) {
-            System.out.println("hi");
             return true;
         }
         return false;
     }
 
+    public boolean collisionCheckSelf() {
+        for (int i = 1; i < snakeBlocks.size(); i++) {
+            if (snakeBlocks.get(0).intersects(snakeBlocks.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean collisionCheckBorder(double width, double height) {
+        if ((snakeBlocks.get(0).getX() >= width)  || (snakeBlocks.get(0).getX() < 0) ||
+            (snakeBlocks.get(0).getY() >= height) || (snakeBlocks.get(0).getY() < 0)) {
+                return true;
+        }
+        return false;
+    }
 }

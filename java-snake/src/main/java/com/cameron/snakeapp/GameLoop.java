@@ -50,5 +50,8 @@ public class GameLoop implements Runnable {
 
     private void update() {
         gameBoard.update();
+        if (gameBoard.getGameOver()) {
+            running = false;
+        }
     }
 }
