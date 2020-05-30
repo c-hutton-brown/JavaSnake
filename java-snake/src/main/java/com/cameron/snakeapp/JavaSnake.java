@@ -6,6 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -19,22 +21,35 @@ public class JavaSnake extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
     
-        Canvas canvas = new Canvas(500, 500);
+        Canvas canvas = new Canvas(900, 900);
         root.getChildren().add(canvas);
     
         final GraphicsContext gc = canvas.getGraphicsContext2D();
-        final Snake player = new Snake();
+        Snake snake = new Snake();
 
-        new AnimationTimer() {
-            public void handle(long currentNanoTime) {
-                // Clear the canvas
-                gc.setFill( new Color(0, 0, 0, 1.0) );
-                gc.fillRect(0,0, 512,512);
-
-                player.update();
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            if(key.getCode()==KeyCode.A) {
+                snake.moveLeft();
             }
-        }.start();
-    
+            if(key.getCode()==KeyCode.W) {
+                snake.moveUp();
+            }
+            if(key.getCode()==KeyCode.D) {
+                snake.moveRight();
+            }
+            if(key.getCode()==KeyCode.S) {
+                snake.moveDown();
+            }
+            if(key.getCode()==KeyCode.T) {
+                snake.addSnakeBlock(0, 0);
+            }
+        });
+
+        GameBoard gameBoard = new GameBoard(30, snake);
+        GameLoop gameLoop = new GameLoop(gameBoard, gc);
+
+        new Thread(gameLoop).start();
+
         stage.show();
     }
 

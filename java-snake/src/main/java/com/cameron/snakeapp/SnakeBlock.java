@@ -1,27 +1,17 @@
 package com.cameron.snakeapp;
 
-public class SnakeBlock {
-    private int x;
-    private int y;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-    public SnakeBlock(int x, int y){
-        this.x = x;
-        this.y = y;
+public class SnakeBlock extends Sprite {
+
+    public SnakeBlock(double x, double y) {
+        super(x, y, 30, 30);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.setFill(Color.GREEN);
+        gc.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }
